@@ -19,27 +19,13 @@ const scrapeLogic = async (res) => {
 
     await page.goto("https://developer.chrome.com/");
 
-    // Set screen size
-    await page.setViewport({ width: 1080, height: 1024 });
-
-    // Type into search box
-    await page.type(".search-box__input", "automate beyond recorder");
-
-    // Wait and click on first result
-    const searchResultSelector = ".search-box__link";
-    await page.waitForSelector(searchResultSelector);
-    await page.click(searchResultSelector);
-
-    // Locate the full title with a unique string
-    const textSelector = await page.waitForSelector(
-      "text/Customize and automate"
-    );
-    const fullTitle = await textSelector.evaluate((el) => el.textContent);
+    const title = [
+      { title: await page.title() }
+    ]
 
     // Print the full title
-    const logStatement = `The title of this blog post is ${fullTitle}`;
-    console.log(logStatement);
-    res.send(logStatement);
+    console.log(title);
+    res.status(200).json(title);
   } catch (e) {
     console.error(e);
     res.send(`Something went wrong while running Puppeteer: ${e}`);
