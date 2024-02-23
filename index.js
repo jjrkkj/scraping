@@ -6,11 +6,11 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.get("/week", (req, res) => {
-  getWeek(res);
+  getWeek(req, res);
 });
 
 app.get("/players", (req, res) => {
-  getPlayers(res);
+  getPlayers(req, res);
 });
 
 app.listen(PORT, () => {

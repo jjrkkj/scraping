@@ -1,7 +1,14 @@
 const puppeteer = require("puppeteer");
 require("dotenv").config();
 
-const getWeek = async (res) => {
+const getWeek = async (req, res) => {
+	const key = req.headers['x-api-key'];
+
+	if (key !== process.env.API_KEY) {
+		res.status(403).send('Forbidden');
+		return;
+	}
+
 	const browser = await puppeteer.launch({
 		args: [
 			"--disable-setuid-sandbox",
@@ -18,14 +25,13 @@ const getWeek = async (res) => {
 		const url = 'https://gol.gg/players/list/season-S14/split-ALL/tournament-CBLOL%20Split%201%202024/';
 
 		const page = await browser.newPage();
-		await page.goto(url, {timeout: 0});
+		await page.goto(url, { timeout: 0 });
 
 		const value = await page.evaluate(() => {
 			const select = document.querySelector('#comboweek');
 			return select.options[1]?.value || '';
 		});
 
-		console.log(value);
 		res.status(200).json(value);
 	} catch (e) {
 		console.error(e);
