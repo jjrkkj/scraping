@@ -4,10 +4,10 @@ require("dotenv").config();
 const getPlayers = async (req, res) => {
 	const key = req.headers['x-api-key'];
 
-	if (key !== process.env.API_KEY) {
-		res.status(403).send('Forbidden');
-		return;
-	}
+	// if (key !== process.env.API_KEY) {
+	// 	res.status(403).send('Forbidden');
+	// 	return;
+	// }
 
 	const browser = await puppeteer.launch({
 		args: [
