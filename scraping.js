@@ -2,12 +2,12 @@ const puppeteer = require("puppeteer");
 require("dotenv").config();
 
 const getPlayers = async (req, res) => {
-	// const key = req.headers['x-api-key'];
+	const key = req.headers['x-api-key'];
 
-	// if (key !== process.env.API_KEY) {
-	// 	res.status(403).send('Forbidden');
-	// 	return;
-	// }
+	if (key !== process.env.API_KEY) {
+		res.status(403).send('Forbidden');
+		return;
+	}
 
 	const browser = await puppeteer.launch({
 		args: [
@@ -34,7 +34,7 @@ const getPlayers = async (req, res) => {
 
 		await page.select('#comboweek', value);
 
-		await new Promise(resolve => setTimeout(resolve, 3000));
+		await page.waitForSelector('.playerslist')
 
 		const data = await page.evaluate((value) => {
 			const rows = document.querySelectorAll('.playerslist tbody tr');
