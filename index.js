@@ -13,6 +13,8 @@ app.get("/players", (req, res) => {
   getPlayers(req, res);
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
+
+server.timeout = 1000000;
